@@ -21,16 +21,40 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's top-right menu, deploy button, and toolbar
+# Hide Streamlit's menu and deploy button, but keep sidebar toggle
 hide_streamlit_style = """
 <style>
+/* Hide menu and deploy button */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
 .stDeployButton {display: none;}
-div[data-testid="stToolbar"] {display: none;}
 div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
+
+/* Hide toolbar but keep sidebar toggle button */
+section[data-testid="stToolbar"] {
+    visibility: hidden;
+}
+
+/* Make sure sidebar toggle button is visible */
+button[kind="header"] {
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* Keep the header but hide everything except sidebar toggle */
+header {
+    visibility: visible !important;
+}
+
+header > div:not([data-testid="collapsedControl"]) {
+    visibility: hidden;
+}
+
+/* Show only the sidebar collapse button */
+header button[data-testid="baseButton-header"] {
+    visibility: visible !important;
+}
 </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
