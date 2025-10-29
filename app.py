@@ -21,7 +21,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's menu and add permanent sidebar toggle button
+# Hide Streamlit's menu and make sidebar permanently fixed
 hide_streamlit_style = """
 <style>
 /* Hide menu and deploy button */
@@ -33,64 +33,14 @@ div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
 div[data-testid="stToolbar"] {display: none;}
 
-/* Permanent sidebar toggle button - always visible in top-left */
-.sidebar-toggle-btn {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 999999;
-    background-color: #262730;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 8px;
-    padding: 12px 18px;
-    cursor: pointer;
-    font-size: 24px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    transition: all 0.2s ease;
-    font-weight: bold;
-}
-
-.sidebar-toggle-btn:hover {
-    background-color: #FF4B4B;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(255,75,75,0.4);
-}
-
-.sidebar-toggle-btn:active {
-    transform: scale(0.98);
-}
+/* Hide sidebar collapse button - make sidebar permanently open */
+button[kind="header"] {display: none !important;}
+[data-testid="collapsedControl"] {display: none !important;}
+section[data-testid="stSidebar"] > div > div > button {display: none !important;}
 </style>
 """
 
-# Add the permanent toggle button - using div with event listener instead of button onclick
-toggle_button_html = """
-<div class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle Sidebar">☰</div>
-
-<script>
-// Use event listener instead of onclick to avoid React conflicts
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-        const toggleBtn = document.getElementById('sidebarToggle');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', function() {
-                // Try to find and click Streamlit's sidebar toggle button
-                try {
-                    const sidebarButton = parent.document.querySelector('button[kind="header"]');
-                    if (sidebarButton) {
-                        sidebarButton.click();
-                    }
-                } catch (e) {
-                    console.log('Could not toggle sidebar:', e);
-                }
-            });
-        }
-    }, 500);
-});
-</script>
-"""
-
-st.markdown(hide_streamlit_style + toggle_button_html, unsafe_allow_html=True)
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Title and description
 st.title("⚡ Conformal Field Solver")
