@@ -63,18 +63,30 @@ div[data-testid="stToolbar"] {display: none;}
 </style>
 """
 
-# Add the permanent toggle button using components.html for better control
+# Add the permanent toggle button - using div with event listener instead of button onclick
 toggle_button_html = """
-<button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">☰</button>
+<div class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle Sidebar">☰</div>
 
 <script>
-function toggleSidebar() {
-    // Find the sidebar collapse button and click it
-    const collapseButton = parent.document.querySelector('button[kind="header"]');
-    if (collapseButton) {
-        collapseButton.click();
-    }
-}
+// Use event listener instead of onclick to avoid React conflicts
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const toggleBtn = document.getElementById('sidebarToggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                // Try to find and click Streamlit's sidebar toggle button
+                try {
+                    const sidebarButton = parent.document.querySelector('button[kind="header"]');
+                    if (sidebarButton) {
+                        sidebarButton.click();
+                    }
+                } catch (e) {
+                    console.log('Could not toggle sidebar:', e);
+                }
+            });
+        }
+    }, 500);
+});
 </script>
 """
 
