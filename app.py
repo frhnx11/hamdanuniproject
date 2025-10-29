@@ -21,43 +21,64 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's menu and deploy button, but keep sidebar toggle
+# Hide Streamlit's menu and add permanent sidebar toggle button
 hide_streamlit_style = """
 <style>
 /* Hide menu and deploy button */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
+header {visibility: hidden;}
 .stDeployButton {display: none;}
 div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
+div[data-testid="stToolbar"] {display: none;}
 
-/* Hide toolbar but keep sidebar toggle button */
-section[data-testid="stToolbar"] {
-    visibility: hidden;
+/* Permanent sidebar toggle button - always visible in top-left */
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 999999;
+    background-color: #262730;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+    font-weight: bold;
 }
 
-/* Make sure sidebar toggle button is visible */
-button[kind="header"] {
-    visibility: visible !important;
-    display: block !important;
+.sidebar-toggle-btn:hover {
+    background-color: #FF4B4B;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(255,75,75,0.4);
 }
 
-/* Keep the header but hide everything except sidebar toggle */
-header {
-    visibility: visible !important;
-}
-
-header > div:not([data-testid="collapsedControl"]) {
-    visibility: hidden;
-}
-
-/* Show only the sidebar collapse button */
-header button[data-testid="baseButton-header"] {
-    visibility: visible !important;
+.sidebar-toggle-btn:active {
+    transform: scale(0.98);
 }
 </style>
 """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# Add the permanent toggle button using components.html for better control
+toggle_button_html = """
+<button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">☰</button>
+
+<script>
+function toggleSidebar() {
+    // Find the sidebar collapse button and click it
+    const collapseButton = parent.document.querySelector('button[kind="header"]');
+    if (collapseButton) {
+        collapseButton.click();
+    }
+}
+</script>
+"""
+
+st.markdown(hide_streamlit_style + toggle_button_html, unsafe_allow_html=True)
 
 # Title and description
 st.title("⚡ Conformal Field Solver")
