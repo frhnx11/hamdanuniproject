@@ -21,13 +21,22 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's top-right menu, deploy button, and toolbar
+# Hide Streamlit's top-right menu, deploy button, toolbar, and footer branding
 hide_streamlit_style = """
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 .stDeployButton {display: none;}
+.viewerBadge_container__1QSob {display: none;}
+.styles_viewerBadge__1yB5_ {display: none;}
+div[data-testid="stToolbar"] {display: none;}
+div[data-testid="stDecoration"] {display: none;}
+div[data-testid="stStatusWidget"] {display: none;}
+footer:after {content: none;}
+.viewerBadge_link__1S137 {display: none;}
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden !important;}
 </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
