@@ -21,23 +21,57 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's top-right menu, deploy button, toolbar, and footer branding
+# Hide ALL Streamlit branding including bottom-right badges
 hide_streamlit_style = """
 <style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-.stDeployButton {display: none;}
-.viewerBadge_container__1QSob {display: none;}
-.styles_viewerBadge__1yB5_ {display: none;}
-div[data-testid="stToolbar"] {display: none;}
-div[data-testid="stDecoration"] {display: none;}
-div[data-testid="stStatusWidget"] {display: none;}
-footer:after {content: none;}
-.viewerBadge_link__1S137 {display: none;}
-#MainMenu {visibility: hidden;}
+/* Hide top menu and toolbar */
+#MainMenu {visibility: hidden !important;}
+header {visibility: hidden !important;}
+.stDeployButton {display: none !important;}
+div[data-testid="stToolbar"] {display: none !important;}
+div[data-testid="stDecoration"] {display: none !important;}
+div[data-testid="stStatusWidget"] {display: none !important;}
+
+/* Hide footer */
 footer {visibility: hidden !important;}
+footer:after {content: none !important;}
+
+/* Hide bottom-right "created by" and Streamlit badge - ALL VARIANTS */
+.viewerBadge_container__1QSob {display: none !important;}
+.styles_viewerBadge__1yB5_ {display: none !important;}
+.viewerBadge_link__1S137 {display: none !important;}
+div[class*="viewerBadge"] {display: none !important;}
+a[class*="viewerBadge"] {display: none !important;}
+[data-testid="stStatusWidget"] {display: none !important;}
+section[data-testid="stSidebar"] > div:first-child {display: none !important;}
+
+/* Nuclear option: hide everything in bottom right corner */
+.streamlit-container > div:last-child {display: none !important;}
+iframe[title="streamlit_app"] {display: none !important;}
+
+/* Additional badge hiding */
+.css-1dp5vir {display: none !important;}
+.css-164nlkn {display: none !important;}
 </style>
+
+<script>
+// JavaScript to remove badges that load dynamically
+window.addEventListener('load', function() {
+    // Remove all elements with "viewerBadge" in class name
+    setInterval(function() {
+        const badges = document.querySelectorAll('[class*="viewerBadge"]');
+        badges.forEach(badge => badge.remove());
+
+        // Remove iframes
+        const iframes = document.querySelectorAll('iframe[title="streamlit_app"]');
+        iframes.forEach(iframe => iframe.remove());
+
+        // Remove footer
+        const footer = document.querySelector('footer');
+        if (footer) footer.style.display = 'none';
+    }, 100);
+});
+</script>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
