@@ -33,10 +33,24 @@ div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
 div[data-testid="stToolbar"] {display: none;}
 
-/* Hide sidebar collapse button - make sidebar permanently open */
-button[kind="header"] {display: none !important;}
-[data-testid="collapsedControl"] {display: none !important;}
-section[data-testid="stSidebar"] > div > div > button {display: none !important;}
+/* NUCLEAR OPTION: Hide ALL possible sidebar collapse buttons - make sidebar PERMANENTLY open */
+button[kind="header"] {display: none !important; visibility: hidden !important;}
+[data-testid="collapsedControl"] {display: none !important; visibility: hidden !important;}
+section[data-testid="stSidebar"] button {display: none !important; visibility: hidden !important;}
+section[data-testid="stSidebar"] > div > div > button {display: none !important; visibility: hidden !important;}
+section[data-testid="stSidebar"] [kind="header"] {display: none !important; visibility: hidden !important;}
+[data-testid="baseButton-header"] {display: none !important; visibility: hidden !important;}
+[data-testid="stSidebarCollapse"] {display: none !important; visibility: hidden !important;}
+.css-1cypcdb {display: none !important; visibility: hidden !important;}
+.css-1lcbmhc {display: none !important; visibility: hidden !important;}
+
+/* Disable pointer events on any remaining collapse controls */
+section[data-testid="stSidebar"] button[kind="header"] {
+    pointer-events: none !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+}
 </style>
 """
 
